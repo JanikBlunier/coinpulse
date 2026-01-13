@@ -13,9 +13,13 @@ export async function fetcher<T>(
   params?: QueryParams,
   revalidate = 60
 ): Promise<T> {
+  const cleanedEndpoint = endpoint.startsWith('/')
+    ? endpoint.slice(1)
+    : endpoint;
+
   const url = qs.stringifyUrl(
     {
-      url: `${BASE_URL}/${endpoint}`,
+      url: `${BASE_URL}/${cleanedEndpoint}`,
       query: params,
     },
     { skipEmptyString: true, skipNull: true }
